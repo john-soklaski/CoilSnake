@@ -232,7 +232,7 @@ PyObject* get_rom_bytes(PyObject* rom) {
 	romArr = PyObject_GetAttr(rom, PyUnicode_FromString("data"));
         
         // If rom.data array reference hasn't changed, return the cached byte buffer
-        if(s_cachedRomArr && PyObject_RichCompareBool(romArr, s_cachedRomArr, Py_EQ) == 1) {
+        if(romArr == s_cachedRomArr) {
                 Py_DECREF(romArr);
                 return s_cachedRomByteArr;
         }
@@ -248,6 +248,10 @@ PyObject* get_rom_bytes(PyObject* rom) {
 
         if (size < 1)
                 return PyErr_Format(PyExc_TypeError, "rom's data attribute was empty");
+
+        // We are replacing the cached references, so release them before we do
+        Py_XDECREF(s_cachedRomArr);
+        Py_XDECREF(s_cachedRomByteArr);
         
         // Because this reference to the array is cached, there will always be an extra reference
         // to the rom's data until the program ends
@@ -266,10 +270,10 @@ static PyObject* decomp(PyObject* self, PyObject* args) {
                 return NULL;
 
         romByteArr = get_rom_bytes(rom);
-        if(!romByteArr) {
-                 return NULL;//PyErr_Format(PyExc_TypeError, "Marshall failed check"); 
-        }
-        romBuffer = (uchar*) PyByteArray_AsString(romByteArr);
+        if (!romByteArr)
+                return NULL;
+
+        romBuffer = (uchar*) PyByteArray_AS_STRING(romByteArr);
 
         // Allocate a buffer
         buffer = (uchar*) malloc(sizeof(uchar) * 65536);
