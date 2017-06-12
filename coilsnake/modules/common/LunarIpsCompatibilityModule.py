@@ -9,3 +9,4 @@ class LunarIpsCompatibilityModule(GenericModule):
         if rom.is_unallocated((last_offset, last_offset)):
             rom.mark_allocated((last_offset, last_offset))
             rom[last_offset] = 0xC5
+

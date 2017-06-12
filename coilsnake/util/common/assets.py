@@ -14,3 +14,4 @@ def open_asset(*path):
 
 def ccscript_library_path():
     return asset_path(["mobile-sprout", "lib"])
+

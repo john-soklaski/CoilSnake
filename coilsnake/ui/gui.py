@@ -1,17 +1,17 @@
 #! /usr/bin/env python
-import Tkinter
+import tkinter
 from functools import partial
 import logging
 from subprocess import Popen
 from threading import Thread
-import tkFileDialog
-import tkMessageBox
-import tkSimpleDialog
+import tkinter.filedialog
+import tkinter.messagebox
+import tkinter.simpledialog
 from traceback import format_exc
-import ttk
+import tkinter.ttk
 import webbrowser
-from Tkinter import *
-from ttk import *
+from tkinter import *
+from tkinter.ttk import *
 
 import os
 from PIL import ImageTk
@@ -48,7 +48,7 @@ class CoilSnakeGui(object):
             logging.root.setLevel(logging.INFO)
 
     def set_debug_mode(self):
-        confirm = tkMessageBox.askquestion(
+        confirm = tkinter.messagebox.askquestion(
             "Enable Debug Mode?",
             "Would you like to enable Debug mode? Debug mode will provide you with more detailed output while "
             + "CoilSnake is running.\n\n"
@@ -62,13 +62,13 @@ class CoilSnakeGui(object):
         self.refresh_debug_logging()
 
     def set_emulator_exe(self):
-        tkMessageBox.showinfo(
+        tkinter.messagebox.showinfo(
             "Select the Emulator Executable",
             "Select an emulator executable for CoilSnake to use.\n\n"
             "Hint: It is probably named either zsnesw.exe, snes9x.exe, or higan-accuracy.exe"
         )
 
-        emulator_exe = tkFileDialog.askopenfilename(
+        emulator_exe = tkinter.filedialog.askopenfilename(
             parent=self.root,
             initialdir=os.path.expanduser("~"),
             title="Select an Emulator Executable")
@@ -77,7 +77,7 @@ class CoilSnakeGui(object):
             self.preferences.save()
 
     def set_ccscript_offset(self):
-        ccscript_offset_str = tkSimpleDialog.askstring(
+        ccscript_offset_str = tkinter.simpledialog.askstring(
             title="Input CCScript Offset",
             prompt=("Specify the hexidecimal offset to which CCScript should compile text.\n"
                     + "(The default value is F10000)\n\n"
@@ -88,7 +88,7 @@ class CoilSnakeGui(object):
             try:
                 ccscript_offset = int(ccscript_offset_str, 16)
             except:
-                tkMessageBox.showerror(parent=self.root,
+                tkinter.messagebox.showerror(parent=self.root,
                                        title="Error",
                                        message="{} is not a valid hexidecimal number.".format(ccscript_offset_str))
                 return
@@ -103,7 +103,7 @@ class CoilSnakeGui(object):
         system_java_exe = find_system_java_exe()
 
         if system_java_exe:
-            confirm = tkMessageBox.askquestion(
+            confirm = tkinter.messagebox.askquestion(
                 "Configure Java",
                 "CoilSnake has detected Java at the following location:\n\n"
                 + system_java_exe + "\n\n"
@@ -116,13 +116,13 @@ class CoilSnakeGui(object):
                 self.preferences.save()
                 return
 
-        tkMessageBox.showinfo(
+        tkinter.messagebox.showinfo(
             "Select the Java Executable",
             "Select a Java executable for CoilSnake to use.\n\n"
             "On Windows, it might be called \"javaw.exe\" or \"java.exe\"."
         )
 
-        java_exe = tkFileDialog.askopenfilename(
+        java_exe = tkinter.filedialog.askopenfilename(
             parent=self.root,
             title="Select the Java Executable",
             initialfile=(self.preferences["java"] or system_java_exe))
@@ -149,7 +149,7 @@ class CoilSnakeGui(object):
     def run_rom(self, entry):
         rom_filename = entry.get()
         if not self.preferences["emulator"]:
-            tkMessageBox.showerror(parent=self.root,
+            tkinter.messagebox.showerror(parent=self.root,
                                    title="Error",
                                    message="""CoilSnake could not find an emulator.
 Please configure your emulator in the Settings menu.""")
@@ -164,7 +164,7 @@ Please configure your emulator in the Settings menu.""")
 
         java_exe = self.get_java_exe()
         if not java_exe:
-            tkMessageBox.showerror(parent=self.root,
+            tkinter.messagebox.showerror(parent=self.root,
                                    title="Error",
                                    message="""CoilSnake could not find Java.
 Please configure Java in the Settings menu.""")
@@ -184,7 +184,7 @@ Please configure Java in the Settings menu.""")
 
         if rom and project:
             if os.path.isdir(project):
-                confirm = tkMessageBox.askquestion("Are You Sure?",
+                confirm = tkinter.messagebox.askquestion("Are You Sure?",
                                                    "Are you sure you would like to permanently overwrite the "
                                                    + "contents of the selected output directory?",
                                                    icon='warning')
@@ -222,7 +222,7 @@ Please configure Java in the Settings menu.""")
             base_rom_rom = Rom()
             base_rom_rom.from_file(base_rom)
             if base_rom_rom.type == "Earthbound" and len(base_rom_rom) == 0x300000:
-                confirm = tkMessageBox.askquestion("Expand Your Base ROM?",
+                confirm = tkinter.messagebox.askquestion("Expand Your Base ROM?",
                                                    "You are attempting to compile using a base ROM which is "
                                                    "unexpanded. It is likely that this will not succeed, as CoilSnake "
                                                    "needs the extra space in an expanded ROM to store additional data."
@@ -263,7 +263,7 @@ Please configure Java in the Settings menu.""")
         project = project_entry.get()
 
         if rom and project:
-            confirm = tkMessageBox.askquestion("Are You Sure?",
+            confirm = tkinter.messagebox.askquestion("Are You Sure?",
                                                "Are you sure you would like to upgrade this project? This operation "
                                                + "cannot be undone.\n\n"
                                                + "It is recommended that you backup your project before proceeding.",
@@ -296,7 +296,7 @@ Please configure Java in the Settings menu.""")
         project = project_entry.get()
 
         if rom and project:
-            confirm = tkMessageBox.askquestion("Are You Sure?",
+            confirm = tkinter.messagebox.askquestion("Are You Sure?",
                                                "Are you sure you would like to decompile the script into this "
                                                "project? This operation cannot be undone.\n\n"
                                                + "It is recommended that you backup your project before proceeding.",
@@ -364,7 +364,7 @@ Please configure Java in the Settings menu.""")
 
         self.create_menubar()
 
-        self.notebook = ttk.Notebook(self.root)
+        self.notebook = tkinter.ttk.Notebook(self.root)
 
         decompile_frame = self.create_decompile_frame(self.notebook)
         self.notebook.add(decompile_frame, text="Decompile")
@@ -428,7 +428,7 @@ Please configure Java in the Settings menu.""")
         about_label.photo = photo
         about_label.pack(side=LEFT, expand=1)
 
-        about_right_frame = ttk.Frame(self.about_menu)
+        about_right_frame = tkinter.ttk.Frame(self.about_menu)
         Label(about_right_frame,
               text=coilsnake_about(),
               font=("Courier", 11),
@@ -501,7 +501,7 @@ Please configure Java in the Settings menu.""")
     def create_decompile_frame(self, notebook):
         self.decompile_fields = dict()
 
-        decompile_frame = ttk.Frame(notebook)
+        decompile_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame(text="Decompile a ROM to create a new project.", frame=decompile_frame)
 
         profile_selector_init = self.add_profile_selector_to_frame(frame=decompile_frame,
@@ -527,7 +527,7 @@ Please configure Java in the Settings menu.""")
     def create_compile_frame(self, notebook):
         self.compile_fields = dict()
 
-        compile_frame = ttk.Frame(notebook)
+        compile_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame(text="Compile a project to create a new ROM.", frame=compile_frame)
 
         profile_selector_init = self.add_profile_selector_to_frame(frame=compile_frame,
@@ -553,7 +553,7 @@ Please configure Java in the Settings menu.""")
         return compile_frame
 
     def create_upgrade_frame(self, notebook):
-        upgrade_frame = ttk.Frame(notebook)
+        upgrade_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame(text="Upgrade a project created using an older version of CoilSnake.",
                                       frame=upgrade_frame)
 
@@ -576,7 +576,7 @@ Please configure Java in the Settings menu.""")
         return upgrade_frame
 
     def create_decompile_script_frame(self, notebook):
-        decompile_script_frame = ttk.Frame(notebook)
+        decompile_script_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame(text="Decompile a ROM's script to an already existing project.",
                                       frame=decompile_script_frame)
 
@@ -599,7 +599,7 @@ Please configure Java in the Settings menu.""")
         return decompile_script_frame
 
     def create_apply_patch_frame(self, notebook):
-        patcher_patch_frame = ttk.Frame(notebook)
+        patcher_patch_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame("Apply an EBP or IPS patch to a ROM", patcher_patch_frame)
 
         clean_rom_entry = self.add_rom_fields_to_frame(name="Clean ROM", frame=patcher_patch_frame, padding_buttons=0)
@@ -632,7 +632,7 @@ Please configure Java in the Settings menu.""")
         return patcher_patch_frame
 
     def create_create_patch_frame(self, notebook):
-        patcher_create_frame = ttk.Frame(notebook)
+        patcher_create_frame = tkinter.ttk.Frame(notebook)
         self.add_title_label_to_frame("Create EBP patch from a ROM", patcher_create_frame)
 
         clean_rom_entry = self.add_rom_fields_to_frame(name="Clean ROM", frame=patcher_create_frame, padding_buttons=0)
@@ -663,7 +663,7 @@ Please configure Java in the Settings menu.""")
         Label(frame, text=text, justify=CENTER).pack(fill=BOTH, expand=1)
 
     def add_profile_selector_to_frame(self, frame, tab, fields):
-        profile_frame = ttk.Frame(frame)
+        profile_frame = tkinter.ttk.Frame(frame)
 
         Label(profile_frame, text="Profile:", width=13).pack(side=LEFT, fill=BOTH, expand=1)
 
@@ -687,16 +687,16 @@ Please configure Java in the Settings menu.""")
                 if not selected_profile_name:
                     selected_profile_name = profile_name
                 profile["menu"].add_command(label=profile_name,
-                                            command=Tkinter._setit(profile_var, profile_name, tmp_select))
+                                            command=tkinter._setit(profile_var, profile_name, tmp_select))
             profile_var.set(selected_profile_name)
             tmp_select(selected_profile_name)
 
         def tmp_new():
-            profile_name = tkSimpleDialog.askstring("New Profile Name", "Specify the name of the new profile.")
+            profile_name = tkinter.simpledialog.askstring("New Profile Name", "Specify the name of the new profile.")
             if profile_name:
                 profile_name = profile_name.strip()
                 if self.preferences.has_profile(tab, profile_name):
-                    tkMessageBox.showerror(parent=self.root,
+                    tkinter.messagebox.showerror(parent=self.root,
                                            title="Error",
                                            message="A profile with that name already exists.")
                     return
@@ -713,7 +713,7 @@ Please configure Java in the Settings menu.""")
 
         def tmp_delete():
             if self.preferences.count_profiles(tab) <= 1:
-                tkMessageBox.showerror(parent=self.root,
+                tkinter.messagebox.showerror(parent=self.root,
                                        title="Error",
                                        message="Cannot delete the only profile.")
             else:
@@ -741,7 +741,7 @@ Please configure Java in the Settings menu.""")
         return tmp_reload_options_and_select_default
 
     def add_rom_fields_to_frame(self, name, frame, save=False, padding_buttons=1):
-        rom_frame = ttk.Frame(frame)
+        rom_frame = tkinter.ttk.Frame(frame)
 
         Label(rom_frame, text="{}:".format(name), width=13, justify=RIGHT).pack(side=LEFT, fill=BOTH, expand=1)
         rom_entry = Entry(rom_frame, width=30)
@@ -772,7 +772,7 @@ Please configure Java in the Settings menu.""")
         return rom_entry
 
     def add_project_fields_to_frame(self, name, frame):
-        project_frame = ttk.Frame(frame)
+        project_frame = tkinter.ttk.Frame(frame)
 
         Label(project_frame, text="{}:".format(name), width=13, justify=RIGHT).pack(side=LEFT, fill=BOTH, expand=1)
         project_entry = Entry(project_frame, width=30)
@@ -805,7 +805,7 @@ Please configure Java in the Settings menu.""")
         return project_entry
 
     def add_patch_fields_to_frame(self, name, frame, save=False):
-        patch_frame = ttk.Frame(frame)
+        patch_frame = tkinter.ttk.Frame(frame)
 
         Label(
             patch_frame, text="{}:".format(name), width=13, justify=RIGHT
@@ -830,7 +830,7 @@ Please configure Java in the Settings menu.""")
         return patch_entry
 
     def add_headered_field_to_frame(self, name, frame):
-        patch_frame = ttk.Frame(frame)
+        patch_frame = tkinter.ttk.Frame(frame)
 
         headered_var = BooleanVar()
         headered_check = Checkbutton(patch_frame, text=name, variable=headered_var)
@@ -846,3 +846,4 @@ Please configure Java in the Settings menu.""")
 def main():
     gui = CoilSnakeGui()
     sys.exit(gui.main())
+

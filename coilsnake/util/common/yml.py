@@ -14,9 +14,9 @@ log = logging.getLogger(__name__)
 
 
 def convert_values_to_hex_repr(yml_str_rep, key):
-    return re.sub("{}: (\d+)".format(re.escape(key)),
+    return re.sub("{}: (\d+)".format(re.escape(key)).encode(),
                   lambda i: "{}: {:#x}".format(key,
-                                               int(i.group(0)[i.group(0).find(": ") + 2:])),
+                                               int(i.group(0)[i.group(0).find(b": ") + 2:])).encode(),
                   yml_str_rep)
 
 
@@ -33,7 +33,7 @@ def replace_field_in_yml(resource_name, resource_open_r, resource_open_w, key, n
         value_map = dict()
     if new_key is None:
         new_key = key
-    value_map = dict((lower_if_str(k), lower_if_str(v)) for k, v in value_map.iteritems())
+    value_map = dict((lower_if_str(k), lower_if_str(v)) for k, v in value_map.items())
     with resource_open_r(resource_name, "yml") as f:
         data = yml_load(f)
         for i in data:
@@ -81,6 +81,7 @@ def yml_dump(yml_rep, f=None, default_flow_style=None):
             yaml.dump(yml_rep,
                       f,
                       default_flow_style=default_flow_style,
+                      encoding='utf-8',
                       Dumper=yaml.CSafeDumper)
         except:
             raise CoilSnakeUnexpectedError(traceback.format_exc())
@@ -88,6 +89,8 @@ def yml_dump(yml_rep, f=None, default_flow_style=None):
         try:
             return yaml.dump(yml_rep,
                              default_flow_style=default_flow_style,
+                             encoding='utf-8',
                              Dumper=yaml.CSafeDumper)
         except:
             raise CoilSnakeUnexpectedError(traceback.format_exc())
+

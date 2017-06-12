@@ -123,7 +123,7 @@ class TitleScreenModule(EbModule):
             num_subpalettes=NUM_SUBPALETTES,
             subpalette_length=CHARS_SUBPALETTE_LENGTH
         )
-        self.chars_layouts = [[] for _ in xrange(NUM_CHARS)]
+        self.chars_layouts = [[] for _ in range(NUM_CHARS)]
 
     def read_from_rom(self, rom):
         self.read_background_data_from_rom(rom)
@@ -180,8 +180,8 @@ class TitleScreenModule(EbModule):
             self.chars_anim_palette.from_block(block=block, offset=0)
 
     def read_chars_layouts_from_rom(self, rom):
-        self.chars_layouts = [[] for _ in xrange(NUM_CHARS)]
-        for char in xrange(NUM_CHARS):
+        self.chars_layouts = [[] for _ in range(NUM_CHARS)]
+        for char in range(NUM_CHARS):
             # Get the location of a character's data
             offset = CHARS_LAYOUT_POINTER_OFFSET + rom.read_multi(
                 CHARS_LAYOUT_TABLE + char*2, 2
@@ -314,7 +314,7 @@ class TitleScreenModule(EbModule):
             )
 
         # Read the background animated frames
-        for frame in xrange(NUM_ANIM_FRAMES):
+        for frame in range(NUM_ANIM_FRAMES):
             # Create temporary structures used to check consistency between
             # frames
             tileset = EbGraphicTileset(BG_NUM_TILES, TILE_WIDTH, TILE_HEIGHT)
@@ -368,13 +368,13 @@ class TitleScreenModule(EbModule):
             CHARS_NUM_ANIM_SUBPALETTES, ANIM_SUBPALETTE_LENGTH
         )
         original_tileset = None
-        for p in xrange(CHARS_NUM_ANIM_SUBPALETTES):
+        for p in range(CHARS_NUM_ANIM_SUBPALETTES):
             # Read one of the animation frames
             with resource_open(CHARS_FRAMES_PATH.format(p), "png") as f:
                 # Create temporary structures to hold the data
                 image = open_indexed_image(f)
                 arrangement = EbTileArrangement(
-                    image.width/TILE_WIDTH, image.height/TILE_HEIGHT
+                    image.width // TILE_WIDTH, image.height // TILE_HEIGHT
                 )
                 tileset = EbGraphicTileset(
                     CHARS_NUM_TILES, TILE_WIDTH, TILE_HEIGHT
@@ -385,7 +385,7 @@ class TitleScreenModule(EbModule):
                 arrangement.from_image(image, tileset, anim_subpalette, True)
 
             # Add the characters animation subpalette
-            for i in xrange(ANIM_SUBPALETTE_LENGTH):
+            for i in range(ANIM_SUBPALETTE_LENGTH):
                 self.chars_anim_palette[p, i] = anim_subpalette[0, i]
 
             # Add the characters tileset if not already set, otherwise
@@ -396,20 +396,20 @@ class TitleScreenModule(EbModule):
                     CHARS_NUM_TILES, TILE_WIDTH, TILE_HEIGHT
                 )
                 self.chars_tileset.tiles = [
-                    [[0 for _ in xrange(TILE_HEIGHT)]
-                        for _ in xrange(TILE_WIDTH)]
-                    for _ in xrange(CHARS_NUM_TILES)
+                    [[0 for _ in range(TILE_HEIGHT)]
+                        for _ in range(TILE_WIDTH)]
+                    for _ in range(CHARS_NUM_TILES)
                 ]
-                unused_tiles = set(xrange(CHARS_NUM_TILES))
+                unused_tiles = set(range(CHARS_NUM_TILES))
 
                 # Set the new character layouts
-                self.chars_layouts = [[] for _ in xrange(NUM_CHARS)]
-                for c, data in chars_positions.items():
+                self.chars_layouts = [[] for _ in range(NUM_CHARS)]
+                for c, data in list(chars_positions.items()):
                     # Get the data from the YAML file
-                    x = int(data['x']/TILE_WIDTH)
-                    y = int(data['y']/TILE_HEIGHT)
-                    width = int(data['width']/TILE_WIDTH)
-                    height = int(data['height']/TILE_HEIGHT)
+                    x = int(data['x'] // TILE_WIDTH)
+                    y = int(data['y'] // TILE_HEIGHT)
+                    width = int(data['width'] // TILE_WIDTH)
+                    height = int(data['height'] // TILE_HEIGHT)
                     x_offset = data['top_left_offset']['x']
                     y_offset = data['top_left_offset']['y']
                     unknown = data['unknown']
@@ -419,13 +419,13 @@ class TitleScreenModule(EbModule):
                     # stored as one); otherwise, bordering tiles that are
                     # visited will all be single tiles.
                     l = [
-                        (i, j) for i in xrange(0, width, 2)
-                        for j in xrange(0, height, 2)
+                        (i, j) for i in range(0, width, 2)
+                        for j in range(0, height, 2)
                     ]
                     if width % 2 == 1:
-                        l.extend([(width-1, j) for j in xrange(1, height, 2)])
+                        l.extend([(width-1, j) for j in range(1, height, 2)])
                     if height % 2 == 1:
-                        l.extend([(i, height-1) for i in xrange(1, width, 2)])
+                        l.extend([(i, height-1) for i in range(1, width, 2)])
 
                     # Generate the new reduced tileset
                     for i, j in l:
@@ -470,7 +470,7 @@ class TitleScreenModule(EbModule):
         with resource_open(CHARS_INITIAL_PATH, "png") as f:
             image = open_indexed_image(f)
             arrangement = EbTileArrangement(
-                image.width / TILE_WIDTH, image.height / TILE_HEIGHT
+                image.width // TILE_WIDTH, image.height // TILE_HEIGHT
             )
             tileset = EbGraphicTileset(
                 CHARS_NUM_TILES, TILE_WIDTH, TILE_HEIGHT
@@ -495,7 +495,7 @@ class TitleScreenModule(EbModule):
             image.save(f)
 
         # Write out the background's animated frames
-        for frame in xrange(NUM_ANIM_FRAMES):
+        for frame in range(NUM_ANIM_FRAMES):
             palette = EbPalette(NUM_SUBPALETTES, BG_SUBPALETTE_LENGTH)
             if frame < CHARS_NUM_ANIM_SUBPALETTES:
                 palette[0, CHARS_ANIM_SLICE] = \
@@ -520,8 +520,8 @@ class TitleScreenModule(EbModule):
                 tile = entry.tile & (CHARS_NUM_TILES - 1)
                 top_left['x'] = min(top_left['x'], int(entry.x))
                 top_left['y'] = min(top_left['y'], int(entry.y))
-                x = c*3 + (entry.x+16)/8
-                y = (entry.y+24)/8
+                x = c*3 + (entry.x+16) // 8
+                y = (entry.y+24) // 8
                 arrangement[x, y].tile = tile
                 if not entry.is_single():
                     arrangement[x+1, y].tile = tile + 1
@@ -537,7 +537,7 @@ class TitleScreenModule(EbModule):
             }
 
         # Write the characters animation frames
-        for p in xrange(CHARS_NUM_ANIM_SUBPALETTES):
+        for p in range(CHARS_NUM_ANIM_SUBPALETTES):
             with resource_open(CHARS_FRAMES_PATH.format(p), "png") as f:
                 image = arrangement.image(
                     self.chars_tileset,
@@ -579,3 +579,5 @@ class TitleScreenModule(EbModule):
             block=rom, offset=pointer, pointer=to_snes_address(new_offset)
         )
         return new_offset
+
+

@@ -41,3 +41,4 @@ class MapEnemyModule(EbModule):
             self.group_pointer_table.from_yml_file(f)
         with resource_open(self.group_placement_table.name.lower(), "yml") as f:
             self.group_placement_table.from_yml_file(f)
+

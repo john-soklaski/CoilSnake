@@ -118,8 +118,8 @@ class FontModule(EbModule):
                     image = open_indexed_image(image_file)
 
                     expanded_image = Image.new("P", (new_image_w, new_image_h), None)
-                    for y in xrange(new_image_h):
-                        for x in xrange(new_image_w):
+                    for y in range(new_image_h):
+                        for x in range(new_image_w):
                             expanded_image.putpixel((x, y), 1)
                     FONT_IMAGE_PALETTE.to_image(expanded_image)
                     expanded_image.paste(image, (0, 0))
@@ -132,7 +132,7 @@ class FontModule(EbModule):
                 with resource_open_r(widths_resource_name, "yml") as widths_file:
                     widths_dict = yml_load(widths_file)
 
-                for character_id in xrange(96, 128):
+                for character_id in range(96, 128):
                     if character_id not in widths_dict:
                         widths_dict[character_id] = 0
 
@@ -148,3 +148,5 @@ class FontModule(EbModule):
             self.upgrade_project(3, new_version, rom, resource_open_r, resource_open_w, resource_delete)
         else:
             self.upgrade_project(old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+
+

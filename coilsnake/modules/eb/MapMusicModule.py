@@ -41,3 +41,5 @@ class MapMusicModule(EbModule):
     def read_from_project(self, resource_open):
         with resource_open("map_music", "yml") as f:
             self.pointer_table.from_yml_file(f)
+
+

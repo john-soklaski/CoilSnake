@@ -55,3 +55,4 @@ class EbTextPointer(EbPointer):
 
         if (self.address != 0) and (self.address < 0xc00000 or self.address > 0xffffff):
             raise InvalidEbTextPointerError("Pointer had invalid address %#x" % self.address)
+

@@ -224,3 +224,4 @@ class TestDoor(GenericTestDestinationDoor):
         self.door = Door(x=222, y=111, text_address=0x00c531af, flag=0x231, destination_x=0x711,
                          destination_y=0x313, destination_direction=DestinationDirection.UP,
                          destination_style=0x42)
+

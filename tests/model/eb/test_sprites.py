@@ -102,3 +102,4 @@ class TestEbSpriteGroup(SpriteGroupTestCase):
         # One unused sprite
         sprite_10_hash, sprite_10_flip = unique_sprite_usages[10]
         assert_not_in(sprite_10_hash, hashes)
+

@@ -110,3 +110,4 @@ class TestMapEnemyGroupTableEntry(BaseTestCase):
 
     def test_hex_labels(self):
         assert_equal(["Event Flag"], MapEnemyGroupTableEntry.yml_rep_hex_labels())
+

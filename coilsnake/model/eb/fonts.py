@@ -29,7 +29,7 @@ class EbFont(object):
 
     def from_block(self, block, tileset_offset, character_widths_offset):
         self.tileset.from_block(block=block, offset=tileset_offset, bpp=1)
-        for i in xrange(96, self.num_characters):
+        for i in range(96, self.num_characters):
             self.tileset.clear_tile(i, color=1)
         self.character_widths = block[character_widths_offset:character_widths_offset + self.num_characters].to_list()
 
@@ -65,7 +65,7 @@ class EbFont(object):
 
         if widths_format == "yml":
             widths_dict = yml_load(widths_file)
-            self.character_widths = map(lambda i: widths_dict[i], range(self.tileset.num_tiles_maximum))
+            self.character_widths = [widths_dict[i] for i in range(self.tileset.num_tiles_maximum)]
 
     def image_size(self):
         if self.num_characters == 96:
@@ -127,3 +127,4 @@ class EbCreditsFont(object):
         self.palette.from_image(image)
         self.tileset.from_image(image, _CREDITS_PREVIEW_ARRANGEMENT, self.palette)
         del image
+

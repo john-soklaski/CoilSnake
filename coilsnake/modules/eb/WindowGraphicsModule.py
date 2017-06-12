@@ -132,7 +132,8 @@ class WindowGraphicsModule(EbModule):
         # Write names
         with resource_open("WindowGraphics/flavor_names", "txt") as f:
             for asm_pointer_offset in FLAVOR_NAME_ASM_POINTER_OFFSETS:
-                print >> f, self.flavor_names[asm_pointer_offset]
+                f.write(self.flavor_names[asm_pointer_offset].encode())
+                f.write(b"\n")
 
     def read_from_project(self, resource_open):
         # Read graphics. Just use the first of each image.
@@ -169,3 +170,5 @@ class WindowGraphicsModule(EbModule):
             for asm_pointer_offset in FLAVOR_NAME_ASM_POINTER_OFFSETS:
                 name = f.readline()[:-1]
                 self.flavor_names[asm_pointer_offset] = FLAVOR_NAME_ENTRY.from_yml_rep(name)
+
+

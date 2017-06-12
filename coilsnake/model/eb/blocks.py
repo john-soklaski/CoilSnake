@@ -91,3 +91,4 @@ class EbRom(Rom):
         """
 
         return hashlib.md5(self.data.tostring()).hexdigest()
+

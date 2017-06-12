@@ -67,3 +67,5 @@ class SmbModule(GenericModule):
     @staticmethod
     def is_compatible_with_romtype(romtype):
         return romtype == "Super Mario Bros"
+
+

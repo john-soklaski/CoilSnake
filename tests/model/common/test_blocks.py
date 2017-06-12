@@ -354,3 +354,4 @@ class TestRom(TestAllocatableBlock):
         assert_equal(len(self.block.data), 0x600000)
         assert_equal(self.block[0xffd5], 0x25)
         assert_equal(self.block[0xffd7], 0x0d)
+

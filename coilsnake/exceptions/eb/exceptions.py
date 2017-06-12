@@ -7,3 +7,4 @@ class InvalidEbTextPointerError(InvalidUserDataError):
 
 class InvalidEbCompressedDataError(InvalidArgumentError):
     pass
+

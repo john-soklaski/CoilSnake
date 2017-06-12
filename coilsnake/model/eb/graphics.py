@@ -100,7 +100,7 @@ class EbGraphicTileset(EqualityMixin):
     def block_size(self, bpp=2):
         """Returns the size required to represent this tileset in a block.
         :param bpp: The number of bits used to represent each pixel by the block representation."""
-        return self.tile_height * bpp * (self.tile_width / 8) * self.num_tiles_maximum
+        return self.tile_height * bpp * (self.tile_width // 8) * self.num_tiles_maximum
 
     def from_image(self, image, arrangement, palette):
         """Reads in a tileset from an image, given a known arrangement and palette which were used to construct the
@@ -266,8 +266,8 @@ class EbTileArrangement(EqualityMixin):
                     palette_offset = 0
                 else:
                     palette_offset = item.subpalette*palette.subpalette_length
-                for tile_y in xrange(tileset.tile_height):
-                    for tile_x in xrange(tileset.tile_width):
+                for tile_y in range(tileset.tile_height):
+                    for tile_x in range(tileset.tile_width):
                         pixel_x, pixel_y = tile_x, tile_y
                         if item.is_vertically_flipped:
                             pixel_y = tileset.tile_height - pixel_y - 1
@@ -295,17 +295,17 @@ class EbTileArrangement(EqualityMixin):
             rgb_image_data = rgb_image.load()
             del rgb_image
 
-            tile = [array('B', [0] * tileset.tile_width) for i in xrange(tileset.tile_height)]
+            tile = [array('B', [0] * tileset.tile_width) for i in range(tileset.tile_height)]
 
-            for arrangement_y in xrange(self.height):
+            for arrangement_y in range(self.height):
                 image_y = arrangement_y * tileset.tile_height
-                for arrangement_x in xrange(self.width):
+                for arrangement_x in range(self.width):
                     image_x = arrangement_x * tileset.tile_width
 
                     tile_colors = set()
-                    for tile_y in xrange(tileset.tile_height):
+                    for tile_y in range(tileset.tile_height):
                         image_tile_y = image_y + tile_y
-                        for tile_x in xrange(tileset.tile_width):
+                        for tile_x in range(tileset.tile_width):
                             r, g, b = rgb_image_data[image_x + tile_x, image_tile_y]
                             tile_colors.add(EbColor(r=r & 0xf8, g=g & 0xf8, b=b & 0xf8))
 
@@ -318,9 +318,9 @@ class EbTileArrangement(EqualityMixin):
                                 list(tile_colors), palette.subpalettes
                             ))
 
-                    for tile_y in xrange(tileset.tile_height):
+                    for tile_y in range(tileset.tile_height):
                         image_tile_y = image_y + tile_y
-                        for tile_x in xrange(tileset.tile_width):
+                        for tile_x in range(tileset.tile_width):
                             image_tile_x = image_x + tile_x
                             tile[tile_y][tile_x] = palette.get_color_id(rgb_image_data[image_tile_x, image_tile_y],
                                                                         subpalette_id)
@@ -338,17 +338,17 @@ class EbTileArrangement(EqualityMixin):
         palette.from_image(image)
         image_data = image.load()
 
-        tile = [array('B', [0] * tileset.tile_width) for i in xrange(tileset.tile_height)]
+        tile = [array('B', [0] * tileset.tile_width) for i in range(tileset.tile_height)]
 
-        for arrangement_y in xrange(self.height):
+        for arrangement_y in range(self.height):
             image_y = arrangement_y * tileset.tile_height
-            for arrangement_x in xrange(self.width):
+            for arrangement_x in range(self.width):
                 image_x = arrangement_x * tileset.tile_width
 
-                for tile_y in xrange(tileset.tile_height):
+                for tile_y in range(tileset.tile_height):
                     image_tile_y = image_y + tile_y
                     tile_row = tile[tile_y]
-                    for tile_x in xrange(tileset.tile_width):
+                    for tile_x in range(tileset.tile_width):
                         tile_row[tile_x] = image_data[image_x + tile_x, image_tile_y]
 
                 tile_id, vflip, hflip = tileset.add_tile(tile, no_flip)
@@ -568,3 +568,4 @@ class EbTownMapIcons(EbCompressedGraphic):
             subpalette_length=16,
             compressed_palettes=False
         )
+

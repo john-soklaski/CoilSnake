@@ -46,3 +46,4 @@ class TextModule(SmbModule.SmbModule):
     def read_from_project(self, resourceOpener):
         with resourceOpener("text", "yml") as f:
             self._data = yml_load(f)
+

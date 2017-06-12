@@ -113,3 +113,4 @@ class TestEbTable(GenericTestTable):
                     (0, "EB Null-Terminated Text", TableSchemaError, TableEntryInvalidYmlRepresentationError,
                      {0: dict(YML_REP[0], **{"EB Null-Terminated Text": "2long"})}),
     ]
+

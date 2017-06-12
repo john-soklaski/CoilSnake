@@ -16,3 +16,4 @@ def open_indexed_image(f):
     if image.mode != 'P':
         raise CoilSnakeError("Image does not use an indexed palette: {}".format(f.name))
     return image
+

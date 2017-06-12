@@ -39,7 +39,7 @@ class DoorModule(EbModule):
             if not entry:
                 rowOut[x % 32] = None
             else:
-                rowOut[x % 32] = map(lambda z: z.yml_rep(), entry)
+                rowOut[x % 32] = [z.yml_rep() for z in entry]
             if (x % 32) == 31:
                 # Start new row
                 out[y] = rowOut
@@ -95,3 +95,5 @@ class DoorModule(EbModule):
                     area_offset += 5
             i += 1
         self.pointer_table.to_block(rom, from_snes_address(0xD00000))
+
+

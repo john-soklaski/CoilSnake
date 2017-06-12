@@ -1,4 +1,4 @@
-from itertools import izip_longest
+from itertools import zip_longest
 import tempfile
 
 import os
@@ -12,7 +12,7 @@ TEST_IMAGE_DIR = os.path.join(TEST_DATA_DIR, "images")
 
 
 def assert_files_equal(expected, result):
-    for i in izip_longest(iter(expected), iter(result)):
+    for i in zip_longest(iter(expected), iter(result)):
         eq_(i[0], i[1])
 
 

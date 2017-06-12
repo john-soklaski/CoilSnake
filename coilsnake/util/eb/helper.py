@@ -4,3 +4,4 @@ def is_in_bank(bank, address):
 
 def not_in_bank(bank, address):
     return not is_in_bank(bank, address)
+

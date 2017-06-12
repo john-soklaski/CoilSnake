@@ -48,8 +48,8 @@ class CoilSnakePreferences(object):
 
     def get_profiles(self, tab_name):
         tab = self._get_preferences_profile_tab(tab_name)
-        profiles = tab.keys()
-        if " default" in tab.keys():
+        profiles = list(tab.keys())
+        if " default" in list(tab.keys()):
             profiles.remove(" default")
         return profiles
 
@@ -100,3 +100,4 @@ class CoilSnakePreferences(object):
 
     def __setitem__(self, key, value):
         self.preferences[key] = value
+

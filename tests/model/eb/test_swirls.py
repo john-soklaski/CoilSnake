@@ -212,3 +212,4 @@ class TestSwirlFrame(SwirlTestCase):
 
                            0],
                           s.block_rep().to_list())
+

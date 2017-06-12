@@ -13,7 +13,7 @@ def main():
     args = parser.parse_args()
 
     csvreader = csv.reader(args.input)
-    column_names = csvreader.next()
+    column_names = next(csvreader)
     i = 0
     f = args.output
     for row in csvreader:
@@ -22,9 +22,11 @@ def main():
         j = 0
         for attr in row:
             if len(attr) == 0:
-                print "WARNING! Entry #" + str(i) + "'s \"" + column_names[j] + "\" is null"
+                print("WARNING! Entry #" + str(i) + "'s \"" + column_names[j] + "\" is null")
             f.write("  " + column_names[j] + ": " + attr + "\n")
             j += 1
 
 if __name__ == '__main__':
     sys.exit(main())
+
+

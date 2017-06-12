@@ -64,3 +64,5 @@ class CccInterfaceModule(EbModule):
         if self.used_range:
             log.debug("Marking ({:#x},{:#x}) as allocated by CCScript".format(self.used_range[0], self.used_range[1]))
             rom.mark_allocated(self.used_range)
+
+

@@ -83,3 +83,5 @@ class MapEventModule(EbModule):
             self.upgrade_project(old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
 
 
+
+

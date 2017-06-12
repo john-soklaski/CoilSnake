@@ -21,20 +21,21 @@ class CharacterSubstitutionsModule(EbModule):
             data = yml_load(f)
 
         if data is not None:
-            for key, value in data.iteritems():
-                if not isinstance(key, basestring):
+            for key, value in data.items():
+                if not isinstance(key, str):
                     raise InvalidUserDataError("String to be replaced is not actually a string: " + key)
                 if len(key) != 1:
                     raise InvalidUserDataError("String to be replaced must be a 1 character long: " + key)
-                if not isinstance(value, basestring):
+                if not isinstance(value, str):
                     raise InvalidUserDataError("String to replace with is not actually a string: " + value)
 
         CharacterSubstitutions.character_substitutions = data
 
     def write_to_project(self, resource_open):
         with resource_open(self.FILE, 'yml') as f:
-            f.write(MODULE_COMMENT)
+            f.write(MODULE_COMMENT.encode())
 
     def upgrade_project(self, old_version, new_version, rom, resource_open_r, resource_open_w, resource_delete):
         if old_version <= 7:
             self.write_to_project(resource_open_w)
+

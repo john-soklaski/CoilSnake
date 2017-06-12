@@ -49,11 +49,11 @@ class SwirlModule(EbModule):
 
         all_animation_pointers = [
             from_snes_address(self.pointer_table[i][0] | SWIRL_ANIMATION_POINTER_TABLE_BASE)
-            for i in xrange(self.pointer_table.num_rows)
+            for i in range(self.pointer_table.num_rows)
         ]
 
         self.swirls = [None] * self.swirl_table.num_rows
-        for i in xrange(self.swirl_table.num_rows):
+        for i in range(self.swirl_table.num_rows):
             speed = self.swirl_table[i][0]
             first_animation = self.swirl_table[i][1]
             number_of_animations = self.swirl_table[i][2]
@@ -96,7 +96,7 @@ class SwirlModule(EbModule):
         with resource_open("Swirls/swirls", "yml") as f:
             swirl_data = yml_load(f)
 
-        self.swirls = [Swirl() for i in xrange(self.swirl_table.num_rows)]
+        self.swirls = [Swirl() for i in range(self.swirl_table.num_rows)]
         for swirl_id, swirl in enumerate(self.swirls):
             log.debug("Reading Swirl #{}".format(swirl_id))
             speed = swirl_data[swirl_id]["speed"]
@@ -144,3 +144,4 @@ class SwirlModule(EbModule):
                 resource_open_r,
                 resource_open_w,
                 resource_delete)
+

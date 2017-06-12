@@ -198,15 +198,15 @@ class MiscTextModule(EbModule):
         self.data = dict()
 
     def read_from_rom(self, rom):
-        for category_name, category in MISC_TEXT.iteritems():
+        for category_name, category in MISC_TEXT.items():
             category_data = dict()
-            for item_name, item in category.iteritems():
+            for item_name, item in category.items():
                 category_data[item_name] = item.from_block(rom)
             self.data[category_name] = category_data
 
     def write_to_rom(self, rom):
-        for category_name, category in MISC_TEXT.iteritems():
-            for item_name, item in category.iteritems():
+        for category_name, category in MISC_TEXT.items():
+            for item_name, item in category.items():
                 item.to_block(rom, self.data[category_name][item_name])
 
     def read_from_project(self, resource_open):
@@ -235,3 +235,4 @@ class MiscTextModule(EbModule):
             self.upgrade_project(3, new_version, rom, resource_open_r, resource_open_w, resource_delete)
         else:
             self.upgrade_project(old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+

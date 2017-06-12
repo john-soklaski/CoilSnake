@@ -14,6 +14,7 @@ def main():
     parser.add_argument("--verbose", help="increase output verbosity", action="store_true")
     parser.add_argument("--quiet", help="silence all output", action="store_true")
     subparsers = parser.add_subparsers()
+    subparsers.required = True
 
     compile_parser = subparsers.add_parser("compile", help="compile from project to rom")
     compile_parser.add_argument("project_directory")
@@ -83,4 +84,6 @@ def _patchrom(args):
 
 
 def _version(args):
-    print coilsnake_about()
+    print(coilsnake_about())
+
+

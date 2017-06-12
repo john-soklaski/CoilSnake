@@ -63,7 +63,7 @@ class TilesetModule(EbModule):
                 k = 8
             else:
                 k = self.palette_pointer_table[i + 1][0] - self.palette_pointer_table[i][0]
-                k /= 0xc0
+                k //= 0xc0
 
             # Add the palettes to the tileset
             palette_offset = from_snes_address(self.palette_pointer_table[i][0])
@@ -202,8 +202,8 @@ class TilesetModule(EbModule):
         elif old_version <= 6:
             with resource_open_r("map_palette_settings", "yml") as f:
                 yml_rep = yml_load(f)
-                for map_tileset in yml_rep.itervalues():
-                    for map_palette in map_tileset.itervalues():
+                for map_tileset in yml_rep.values():
+                    for map_palette in map_tileset.values():
                         if "Event Palette" in map_palette:
                             map_palette["Event Palette"] = {
                                 "Colors": map_palette["Event Palette"],
@@ -218,3 +218,5 @@ class TilesetModule(EbModule):
         else:
             self.upgrade_project(
                 old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+
+

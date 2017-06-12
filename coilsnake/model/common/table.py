@@ -132,8 +132,8 @@ class EnumeratedLittleEndianIntegerTableEntry(LittleEndianIntegerTableEntry):
     def create(name, size, values):
         enumeration_class = type("GenericEnum_{}".format(name),
                                  (GenericEnum,),
-                                 dict(zip([unicode(x).upper() for x in values],
-                                          range(len(values)))))
+                                 dict(list(zip([str(x).upper() for x in values],
+                                          list(range(len(values)))))))
         return type(name,
                     (EnumeratedLittleEndianIntegerTableEntry,),
                     {"name": name,
@@ -148,7 +148,7 @@ class EnumeratedLittleEndianIntegerTableEntry(LittleEndianIntegerTableEntry):
             except InvalidArgumentError:
                 raise TableEntryInvalidYmlRepresentationError(
                     "Could not parse invalid string[{}] as [{}]. Valid string values are: {}".format(
-                    yml_rep, cls.name, ', '.join(cls.enumeration_class.values())))
+                    yml_rep, cls.name, ', '.join(list(cls.enumeration_class.values()))))
         elif isinstance(yml_rep, int):
             return super(EnumeratedLittleEndianIntegerTableEntry, cls).from_yml_rep(yml_rep)
         else:
@@ -274,7 +274,7 @@ class RowTableEntry(TableEntry):
 
     @classmethod
     def from_schema_specification(cls, schema_specification, name="CustomRowTableEntry", hidden_columns=set()):
-        schema = map(cls.to_table_entry_class, schema_specification)
+        schema = list(map(cls.to_table_entry_class, schema_specification))
         return cls.from_schema(schema, name, hidden_columns)
 
     @classmethod
@@ -377,7 +377,7 @@ class GenericLittleEndianRowTableEntry(RowTableEntry):
                 raise InvalidArgumentError("Unknown table column type[{}]".format(column_specification["type"]))
 
             try:
-                parameters = dict(map(lambda x: (x, column_specification[x]), parameter_list))
+                parameters = dict([(x, column_specification[x]) for x in parameter_list])
             except KeyError:
                 raise InvalidArgumentError("Column[{}] in table schema not provided with all required attributes[{}]"
                                            .format(column_specification["name"], parameter_list))
@@ -403,7 +403,7 @@ class Table(object):
             if size % self.schema.size != 0:
                 raise InvalidArgumentError("Cannot create table[{}] with rows of size[{}] and total size[{}]".format(
                     self.name, self.schema.size, size))
-            self.num_rows = size / self.schema.size
+            self.num_rows = size // self.schema.size
 
         self.size = self.schema.size * self.num_rows
         self.values = [None for i in range(self.num_rows)]
@@ -491,7 +491,7 @@ class MatrixTable(Table):
             raise InvalidArgumentError("Could not create MatrixTable with num_rows[{}] not evenly divisible "
                                        "by matrix_height[{}]".format(self.num_rows, matrix_height))
         self.matrix_height = matrix_height
-        self.matrix_width = self.num_rows / matrix_height
+        self.matrix_width = self.num_rows // matrix_height
 
     def from_yml_rep(self, yml_rep):
         yml_rep_unmatrixed = dict()
@@ -509,3 +509,4 @@ class MatrixTable(Table):
                 yml_rep_matrix_row[x] = yml_rep_unmatrixed[y * self.matrix_width + x]
             yml_rep[y] = yml_rep_matrix_row
         return yml_rep
+

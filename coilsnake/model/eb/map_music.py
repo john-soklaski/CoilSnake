@@ -44,3 +44,4 @@ class MapMusicTableEntry(TableEntry):
     @classmethod
     def yml_rep_hex_labels(cls):
         return MapMusicSubTableEntry.yml_rep_hex_labels()
+

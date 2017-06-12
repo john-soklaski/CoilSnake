@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 
 TOWN_MAP_RESOURCE_NAMES = ["TownMaps/" + x for x in TOWN_MAP_NAMES]
-TOWN_MAP_POINTER_OFFSETS = range(0x202190, 0x202190 + 6 * 4, 4)
+TOWN_MAP_POINTER_OFFSETS = list(range(0x202190, 0x202190 + 6 * 4, 4))
 
 TOWN_MAP_ICON_GRAPHICS_ASM_POINTER_OFFSET = 0x4d62f
 TOWN_MAP_ICON_PALETTE_ASM_POINTER_OFFSET = 0x4d5c4
@@ -77,7 +77,7 @@ TOWN_MAP_ICON_PREVIEW_SUBPALETTES = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 TOWN_MAP_ICON_PREVIEW_ARRANGEMENT = EbTileArrangement(width=16, height=18)
 for i in range(16 * 18):
-    item = TOWN_MAP_ICON_PREVIEW_ARRANGEMENT[i % 16, i / 16]
+    item = TOWN_MAP_ICON_PREVIEW_ARRANGEMENT[i % 16, i // 16]
     item.is_priority = False
     item.is_horizontally_flipped = False
     item.is_vertically_flipped = False
@@ -303,3 +303,5 @@ class CompressedGraphicsModule(EbModule):
             self.upgrade_project(3, new_version, rom, resource_open_r, resource_open_w, resource_delete)
         else:
             self.upgrade_project(old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+
+

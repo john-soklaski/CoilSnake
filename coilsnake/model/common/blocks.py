@@ -99,7 +99,7 @@ class Block(object):
         elif size == 0:
             return
         else:
-            for i in xrange(key, key+size):
+            for i in range(key, key+size):
                 self.data[i] = item & 0xff
                 item >>= 8
 
@@ -123,7 +123,7 @@ class Block(object):
             raise TypeError("Argument \"key\" had invalid type of %s" % type(key).__name__)
 
     def __setitem__(self, key, item):
-        if isinstance(key, int) and isinstance(item, (int, long)):
+        if isinstance(key, int) and isinstance(item, int):
             if item < 0 or item > 0xff:
                 raise InvalidArgumentError("Could not write invalid value[%d] as a single byte" % item)
             if key >= self.size:
@@ -259,7 +259,7 @@ class AllocatableBlock(Block):
 
         # First find a free range
         allocated_range = None
-        for i in xrange(0, len(self.unallocated_ranges)):
+        for i in range(0, len(self.unallocated_ranges)):
             begin, end = self.unallocated_ranges[i]
             if size <= end - begin + 1:
                 if (can_write_to is not None) and (not can_write_to(begin)):
@@ -311,13 +311,12 @@ class Rom(AllocatableBlock):
     def _setup_rom_post_load(self):
         self.type = self._detect_type()
         if self.type != ROM_TYPE_NAME_UNKNOWN and 'free ranges' in ROM_TYPE_MAP[self.type]:
-            self.unallocated_ranges = map(lambda y: tuple(map(lambda z: int(z, 0), y[1:-1].split(','))),
-                                          ROM_TYPE_MAP[self.type]['free ranges'])
-            self.unallocated_ranges = filter(lambda (begin, end): end < self.size, self.unallocated_ranges)
+            self.unallocated_ranges = [tuple([int(z, 0) for z in y[1:-1].split(',')]) for y in ROM_TYPE_MAP[self.type]['free ranges']]
+            self.unallocated_ranges = [begin_end for begin_end in self.unallocated_ranges if begin_end[1] < self.size]
             self.unallocated_ranges.sort()
 
     def _detect_type(self):
-        for type_name, d in ROM_TYPE_MAP.iteritems():
+        for type_name, d in ROM_TYPE_MAP.items():
             offset, data, platform = d['offset'], d['data'], d['platform']
 
             if platform == "SNES":
@@ -375,7 +374,7 @@ class Rom(AllocatableBlock):
 
     def add_header(self):
         if self.type == 'Earthbound':
-            for i in xrange(0x200):
+            for i in range(0x200):
                 self.data.insert(0, 0)
             self.size += 0x200
         else:
@@ -395,8 +394,10 @@ class Rom(AllocatableBlock):
                     self.data.fromlist([0] * 0x200000)
                     self.size += 0x200000
                     # The data range written below is already marked as used in romtypes.yml
-                    for i in xrange(0x8000, 0x8000 + 0x8000):
+                    for i in range(0x8000, 0x8000 + 0x8000):
                         self[0x400000 + i] = self[i]
         else:
             raise NotImplementedError("Don't know how to expand ROM of type[%s]" % self.type)
+
+
 

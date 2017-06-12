@@ -3,6 +3,7 @@ from array import array
 
 from coilsnake.exceptions.common.exceptions import InvalidArgumentError, InvalidYmlRepresentationError
 from coilsnake.util.common.type import EqualityMixin, StringRepresentationMixin
+from functools import reduce
 
 
 CHARACTERS = "0123456789abcdefghijklmnopqrstuv"
@@ -76,7 +77,7 @@ class EbColor(EqualityMixin, StringRepresentationMixin):
     def from_yml_rep(self, yml_rep):
         try:
             self.used = True
-            self.r, self.g, self.b = map(int, yml_rep[1:-1].split(','))
+            self.r, self.g, self.b = list(map(int, yml_rep[1:-1].split(',')))
             self.r &= 0xf8
             self.g &= 0xf8
             self.b &= 0xf8
@@ -206,7 +207,7 @@ class EbPalette(EqualityMixin):
                             i,
                             colors - set(subpalette),  # set of colors not in palette
                             ) for i, subpalette in enumerate(self.subpalettes)]
-        subpalette_info = filter(lambda x: x[1] >= len(x[3]), subpalette_info)
+        subpalette_info = [x for x in subpalette_info if x[1] >= len(x[3])]
 
         if len(subpalette_info) == 0:
             # Not enough room to put these colors in a subpalette
@@ -276,12 +277,12 @@ def setup_eb_palette_from_image(palette, img, tile_width, tile_height):
     # First, get a list of all the unique sets of colors in each tile
     color_sets = []
 
-    for x in xrange(0, width, tile_width):
-        for y in xrange(0, height, tile_height):
+    for x in range(0, width, tile_width):
+        for y in range(0, height, tile_height):
             new_color_set = set()
 
-            for tile_x in xrange(x, x + tile_width):
-                for tile_y in xrange(y, y+tile_height):
+            for tile_x in range(x, x + tile_width):
+                for tile_y in range(y, y+tile_height):
                     r, g, b = rgb_image_data[tile_x, tile_y]
                     r &= 0xf8
                     g &= 0xf8
@@ -336,3 +337,4 @@ def join_sets(sets, num_sets_to_output, set_length):
                     return result
 
     return None
+

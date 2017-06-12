@@ -59,3 +59,5 @@ class TitleScreenLayoutEntry(object):
             self.tile & (CHARS_NUM_TILES - 1), self.x, self.y,
             bin(self.flags)[2:], self.unknown
         )
+
+

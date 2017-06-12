@@ -1,8 +1,8 @@
-from Tkconstants import END
+from tkinter.constants import END
 import os
 import subprocess
-import tkFileDialog
-import tkMessageBox
+import tkinter.filedialog
+import tkinter.messagebox
 import sys
 
 from coilsnake.model.common.blocks import Rom
@@ -14,7 +14,7 @@ ROM_FILETYPES = [('SNES ROMs', '*.smc'), ('SNES ROMs', '*.sfc'), ('All files', '
 
 def expand_rom(root, ex=False):
     rom = Rom()
-    filename = tkFileDialog.askopenfilename(
+    filename = tkinter.filedialog.askopenfilename(
         parent=root,
         initialdir=os.path.expanduser("~"),
         title="Select a ROM to expand",
@@ -22,7 +22,7 @@ def expand_rom(root, ex=False):
     if filename:
         rom.from_file(filename)
         if (not ex and len(rom) >= 0x400000) or (ex and (len(rom) >= 0x600000)):
-            tkMessageBox.showerror(
+            tkinter.messagebox.showerror(
                 parent=root,
                 title="Error",
                 message="This ROM is already expanded.")
@@ -33,7 +33,7 @@ def expand_rom(root, ex=False):
                 rom.expand(0x400000)
             rom.to_file(filename)
             del rom
-            tkMessageBox.showinfo(
+            tkinter.messagebox.showinfo(
                 parent=root,
                 title="Expansion Successful",
                 message="Your ROM was expanded.")
@@ -44,7 +44,7 @@ def expand_rom_ex(root):
 
 
 def add_header_to_rom(root):
-    filename = tkFileDialog.askopenfilename(
+    filename = tkinter.filedialog.askopenfilename(
         parent=root,
         initialdir=os.path.expanduser("~"),
         title="Select a ROM to which to add a header",
@@ -54,14 +54,14 @@ def add_header_to_rom(root):
             rom.from_file(filename)
             rom.add_header()
             rom.to_file(filename)
-        tkMessageBox.showinfo(
+        tkinter.messagebox.showinfo(
             parent=root,
             title="Header Addition Successful",
             message="Your ROM was given a header.")
 
 
 def strip_header_from_rom(root):
-    filename = tkFileDialog.askopenfilename(
+    filename = tkinter.filedialog.askopenfilename(
         parent=root,
         initialdir=os.path.expanduser("~"),
         title="Select a ROM from which to remove a header",
@@ -70,7 +70,7 @@ def strip_header_from_rom(root):
         with Rom() as rom:
             rom.from_file(filename)
             rom.to_file(filename)
-        tkMessageBox.showinfo(
+        tkinter.messagebox.showinfo(
             parent=root,
             title="Header Removal Successful",
             message="Your ROM's header was removed.")
@@ -84,13 +84,13 @@ def set_entry_text(entry, text):
 
 def browse_for_patch(root, entry, save=False):
     if save:
-        filename = tkFileDialog.asksaveasfilename(
+        filename = tkinter.filedialog.asksaveasfilename(
             parent=root,
             initialdir=os.path.dirname(entry.get()) or os.path.expanduser("~"),
             title="Select an output patch",
             filetypes=PATCH_FILETYPES)
     else:
-        filename = tkFileDialog.askopenfilename(
+        filename = tkinter.filedialog.askopenfilename(
             parent=root,
             initialdir=os.path.dirname(entry.get()) or os.path.expanduser("~"),
             title="Select a patch",
@@ -102,13 +102,13 @@ def browse_for_patch(root, entry, save=False):
 
 def browse_for_rom(root, entry, save=False):
     if save:
-        filename = tkFileDialog.asksaveasfilename(
+        filename = tkinter.filedialog.asksaveasfilename(
             parent=root,
             initialdir=os.path.dirname(entry.get()) or os.path.expanduser("~"),
             title="Select an output ROM",
             filetypes=ROM_FILETYPES)
     else:
-        filename = tkFileDialog.askopenfilename(
+        filename = tkinter.filedialog.askopenfilename(
             parent=root,
             initialdir=os.path.dirname(entry.get()) or os.path.expanduser("~"),
             title="Select a ROM",
@@ -119,7 +119,7 @@ def browse_for_rom(root, entry, save=False):
 
 
 def browse_for_project(root, entry, save=False):
-    filename = tkFileDialog.askdirectory(
+    filename = tkinter.filedialog.askdirectory(
         parent=root,
         initialdir=os.path.dirname(entry.get()) or os.path.expanduser("~"),
         title="Select a Project Directory",
@@ -158,3 +158,4 @@ def find_system_java_exe():
             return java_exe
 
     return None
+

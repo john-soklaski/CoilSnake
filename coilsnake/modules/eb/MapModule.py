@@ -84,7 +84,7 @@ class MapModule(EbModule):
             offset = map_addrs[row_number % 8] + ((row_number >> 3) << 8)
             return rom[offset:offset + MAP_WIDTH].to_list()
 
-        self.tiles = map(read_row_data, range(MAP_HEIGHT))
+        self.tiles = list(map(read_row_data, list(range(MAP_HEIGHT))))
         k = LOCAL_TILESETS_OFFSET
         for i in range(MAP_HEIGHT >> 3):
             for j in range(MAP_WIDTH):
@@ -137,11 +137,11 @@ class MapModule(EbModule):
         # Write map tiles
         with resource_open("map_tiles", "map") as f:
             for row in self.tiles:
-                f.write(hex(row[0])[2:].zfill(3))
+                f.write(hex(row[0])[2:].zfill(3).encode())
                 for tile in row[1:]:
-                    f.write(" ")
-                    f.write(hex(tile)[2:].zfill(3))
-                f.write("\n")
+                    f.write(b" ")
+                    f.write(hex(tile)[2:].zfill(3).encode())
+                f.write(b"\n")
 
         for i in range(self.sector_yml_table.num_rows):
             tileset = self.sector_tilesets_palettes_table[i][0] >> 3
@@ -175,9 +175,7 @@ class MapModule(EbModule):
     def read_from_project(self, resource_open):
         # Read map data
         with resource_open("map_tiles", "map") as f:
-            self.tiles = map(lambda y:
-                             map(lambda x: int(x, 16), y.split(" ")),
-                             f.readlines())
+            self.tiles = [[int(x, 16) for x in y.split(" ")] for y in f.readlines()]
 
         # Read sector data
         with resource_open("map_sectors", "yml") as f:
@@ -231,3 +229,5 @@ class MapModule(EbModule):
             self.upgrade_project(3, new_version, rom, resource_open_r, resource_open_w, resource_delete)
         else:
             self.upgrade_project(old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+
+

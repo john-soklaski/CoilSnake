@@ -50,7 +50,7 @@ class EbPointerTableEntry(LittleEndianIntegerTableEntry):
 class EbPaletteTableEntry(TableEntry):
     @classmethod
     def from_block(cls, block, offset):
-        palette = EbPalette(num_subpalettes=1, subpalette_length=(cls.size / 2))
+        palette = EbPalette(num_subpalettes=1, subpalette_length=(cls.size // 2))
         palette.from_block(block, offset)
         return palette
 
@@ -60,7 +60,7 @@ class EbPaletteTableEntry(TableEntry):
 
     @classmethod
     def from_yml_rep(cls, yml_rep):
-        palette = EbPalette(num_subpalettes=1, subpalette_length=(cls.size / 2))
+        palette = EbPalette(num_subpalettes=1, subpalette_length=(cls.size // 2))
         try:
             palette.from_yml_rep(yml_rep)
         except InvalidYmlRepresentationError as e:
@@ -91,7 +91,7 @@ class EbStandardTextTableEntry(TableEntry):
     def from_yml_rep(cls, yml_rep):
         if isinstance(yml_rep, int):
             yml_rep = str(yml_rep)
-        elif not isinstance(yml_rep, basestring):
+        elif not isinstance(yml_rep, str):
             raise TableEntryInvalidYmlRepresentationError("Could not parse value[{}] of type[{}] as string".format(
                 yml_rep, type(yml_rep).__name__))
 
@@ -123,7 +123,7 @@ class EbStandardNullTerminatedTextTableEntry(EbStandardTextTableEntry):
     def from_yml_rep(cls, yml_rep):
         if isinstance(yml_rep, int):
             yml_rep = str(yml_rep)
-        elif not isinstance(yml_rep, basestring):
+        elif not isinstance(yml_rep, str):
             raise TableEntryInvalidYmlRepresentationError("Could not parse value[{}] of type[{}] as string".format(
                 yml_rep, type(yml_rep).__name__))
 
@@ -248,3 +248,4 @@ def eb_table_from_offset(offset, single_column=None, matrix_dimensions=None, hid
             name=name or schema_specification["name"],
             size=schema_specification["size"],
             num_rows=num_rows)
+

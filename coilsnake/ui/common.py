@@ -294,3 +294,4 @@ def check_if_project_too_old(project):
 def check_if_types_match(project, rom):
     if rom.type != project.romtype:
         raise CoilSnakeError("Rom type {} does not match Project type {}".format(rom.type, project.romtype))
+

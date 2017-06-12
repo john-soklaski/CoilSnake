@@ -46,7 +46,7 @@ class GenericTestTable(BaseTestCase):
         table = Table(num_rows=1,
                       schema=self.TABLE_SCHEMA)
         for row, column_name, expected_error, expected_error_cause, yml_rep in self.BAD_YML_REPS:
-            print row, column_name, expected_error
+            print(row, column_name, expected_error)
             with assert_raises(TableError) as cm:
                 table.from_yml_rep(yml_rep)
             e = cm.exception
@@ -224,3 +224,4 @@ class TestBitfieldTableEntry(BaseTestCase):
     @raises(TableEntryInvalidYmlRepresentationError)
     def test_from_yml_rep_legacy_too_large(self):
         self.entry_class.from_yml_rep(256)
+

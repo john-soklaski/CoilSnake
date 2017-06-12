@@ -106,7 +106,7 @@ class MapEnemyGroupTableEntry(TableEntry):
     def _subgroup_from_yml_rep(cls, subgroup_yml_rep, field_id):
         if not subgroup_yml_rep:
             return []
-        subgroup = [MapEnemySubGroupTableEntry.from_yml_rep(x) for x in subgroup_yml_rep.itervalues()]
+        subgroup = [MapEnemySubGroupTableEntry.from_yml_rep(x) for x in subgroup_yml_rep.values()]
         subgroup_sum = sum([x[0] for x in subgroup])
         if subgroup_sum != 8:
             raise TableSchemaError(field=field_id,
@@ -118,3 +118,4 @@ class MapEnemyGroupTableEntry(TableEntry):
     @classmethod
     def yml_rep_hex_labels(cls):
         return MapEnemyGroupHeaderTableEntry.yml_rep_hex_labels()
+

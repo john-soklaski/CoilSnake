@@ -16,7 +16,7 @@ def standard_text_from_block(block, offset, max_length):
 def standard_text_to_byte_list(text, max_length):
     # First, substitute all of the characters
     if CharacterSubstitutions.character_substitutions:
-        for k, v in CharacterSubstitutions.character_substitutions.iteritems():
+        for k, v in CharacterSubstitutions.character_substitutions.items():
             text = text.replace(k, v)
 
     byte_list = []
@@ -67,3 +67,4 @@ def standard_text_to_byte_list(text, max_length):
 def standard_text_to_block(block, offset, text, max_length):
     byte_list = standard_text_to_byte_list(text, max_length)
     block[offset:offset+len(byte_list)] = byte_list
+

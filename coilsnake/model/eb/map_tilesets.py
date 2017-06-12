@@ -102,7 +102,7 @@ class EbTileset(object):
     def arrangements_from_block(self, block, offset):
         with EbCompressibleBlock() as compressed_block:
             compressed_block.from_compressed_block(block=block, offset=offset)
-            num_arrangements = len(compressed_block) / 32
+            num_arrangements = len(compressed_block) // 32
 
             j = 0
             for i in range(num_arrangements):
@@ -154,8 +154,8 @@ class EbTileset(object):
         else:
             s = str()
             tile = self.minitiles[n]
-            for y in xrange(8):
-                for x in xrange(8):
+            for y in range(8):
+                for x in range(8):
                     s += CHARACTERS[tile[y][x]]
             return s
 
@@ -163,8 +163,8 @@ class EbTileset(object):
         if n < 896:
             minitile = [[0] * self.minitiles.tile_width for x in range(self.minitiles.tile_height)]
             i = 0
-            for y in xrange(8):
-                for x in xrange(8):
+            for y in range(8):
+                for x in range(8):
                     minitile[y][x] = int(string_rep[i], 32)
                     i += 1
             self.minitiles.tiles[n] = minitile
@@ -176,8 +176,8 @@ class EbTileset(object):
         else:
             s = str()
             collision = self.collisions[n]
-            for y in xrange(4):
-                for x in xrange(4):
+            for y in range(4):
+                for x in range(4):
                     s += "{:04x}{:02x}".format(arrangement[y][x], collision[y*4 + x])
             return s
 
@@ -185,8 +185,8 @@ class EbTileset(object):
         i = 0
         arrangement = [[0 for x in range(4)] for y in range(4)]
         collision = [0] * 16
-        for y in xrange(4):
-            for x in xrange(4):
+        for y in range(4):
+            for x in range(4):
                 arrangement[y][x] = int(string_rep[i:i + 4], 16)
                 collision[y * 4 + x] = int(string_rep[i + 4: i + 6], 16)
                 i += 6
@@ -195,20 +195,24 @@ class EbTileset(object):
 
     def to_file(self, f):
         for i in range(512):
-            print >> f, self.minitile_string_rep(i)
-            print >> f, self.minitile_string_rep(i ^ 512)
-            print >> f
-        print >> f
+            f.write(self.minitile_string_rep(i).encode())
+            f.write(b"\n")
+            f.write(self.minitile_string_rep(i ^ 512).encode())
+            f.write(b"\n")
+            f.write(b"\n")
+        f.write(b"\n")
 
         for map_tileset, map_palette, palette in self.palettes:
-            f.write(CHARACTERS[map_tileset])
-            f.write(CHARACTERS[map_palette])
-            print >> f, str(palette)
-        print >> f
-        print >> f
+            f.write(CHARACTERS[map_tileset].encode())
+            f.write(CHARACTERS[map_palette].encode())
+            f.write(str(palette).encode())
+            f.write(b"\n")
+        f.write(b"\n")
+        f.write(b"\n")
 
         for i in range(1024):
-            print >> f, self.arrangement_collision_string_rep(i)
+            f.write(self.arrangement_collision_string_rep(i).encode())
+            f.write(b"\n")
 
     def from_file(self, f):
         self.minitiles.tiles = [None] * 896
@@ -231,3 +235,4 @@ class EbTileset(object):
 
         for i in range(1024):
             self.arrangement_collision_from_string(i, f.readline()[:-1])
+

@@ -12,11 +12,11 @@ log = logging.getLogger(__name__)
 
 
 class DoorType(GenericEnum):
-    SWITCH, ROPE_OR_LADDER, DOOR, ESCALATOR, STAIRWAY, OBJECT, PERSON = range(7)
+    SWITCH, ROPE_OR_LADDER, DOOR, ESCALATOR, STAIRWAY, OBJECT, PERSON = list(range(7))
 
 
 class StairDirection(GenericEnum):
-    NW, NE, SW, SE = range(0, 0x400, 0x100)
+    NW, NE, SW, SE = list(range(0, 0x400, 0x100))
     NOWHERE = 0x8000
 
 
@@ -26,7 +26,7 @@ class ClimbableType(GenericEnum):
 
 
 class DestinationDirection(GenericEnum):
-    DOWN, UP, RIGHT, LEFT = range(4)
+    DOWN, UP, RIGHT, LEFT = list(range(4))
 
 
 def in_destination_bank(offset):
@@ -340,3 +340,4 @@ def door_from_yml_rep(yml_rep):
 
     door.from_yml_rep(yml_rep)
     return door
+

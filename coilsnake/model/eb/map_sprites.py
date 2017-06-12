@@ -60,3 +60,4 @@ class SpritePlacementPointerTableEntry(EbPointerTableEntry):
             return []
         else:
             return [SpritePlacementTableEntry.from_yml_rep(entry) for entry in yml_rep]
+

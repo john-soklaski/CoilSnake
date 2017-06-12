@@ -224,7 +224,7 @@ class EnemyModule(EbModule):
         with resource_open("enemy_groups", "yml") as f:
             self.enemy_groups = []
             enemy_groups_yml_rep = yml_load(f)
-            for entry in enemy_groups_yml_rep.itervalues():
+            for entry in enemy_groups_yml_rep.values():
                 enemy_group = entry["Enemies"]
                 if type(enemy_group) == dict:
                     enemy_group = [enemy_group[x] for x in sorted(enemy_group.keys())]
@@ -271,3 +271,5 @@ class EnemyModule(EbModule):
         else:
             self.upgrade_project(
                 old_version + 1, new_version, rom, resource_open_r, resource_open_w, resource_delete)
+
+

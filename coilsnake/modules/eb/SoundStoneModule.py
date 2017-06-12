@@ -84,3 +84,4 @@ class SoundStoneModule(EbModule):
         if old_version < 8:
             self.read_from_rom(rom)
             self.write_to_project(resource_open_w)
+

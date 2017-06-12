@@ -31,3 +31,4 @@ class TestEbRom(BaseTestCase):
                 assert_equal(self.reference_rom.data, variant.data)
                 assert_equal(self.reference_rom.size, variant.size)
                 assert_equal(EbRom.REFERENCE_MD5, hashlib.md5(variant.data.tostring()).hexdigest())
+

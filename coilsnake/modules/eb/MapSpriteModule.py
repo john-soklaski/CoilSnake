@@ -39,3 +39,4 @@ class MapSpriteModule(EbModule):
     def read_from_project(self, resource_open):
         with resource_open("map_sprites", "yml") as f:
             self.table.from_yml_file(f)
+

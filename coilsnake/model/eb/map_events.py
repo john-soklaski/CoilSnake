@@ -79,3 +79,4 @@ class MapEventPointerTableEntry(EbPointerTableEntry):
     @classmethod
     def yml_rep_hex_labels(cls):
         return EbEventFlagTableEntry.yml_rep_hex_labels()
+

@@ -202,3 +202,4 @@ class BattleBgModule(EbModule):
             write_asm_pointer(block=rom,
                               offset=asm_pointer_offset,
                               pointer=to_snes_address(palette_pointer_table_offset))
+

@@ -106,3 +106,5 @@ class Project(object):
         if os.path.isfile(fname):
             os.remove(fname)
         del self._resources[module_name][resource_name]
+
+

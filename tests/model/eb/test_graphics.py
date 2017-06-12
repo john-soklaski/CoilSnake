@@ -749,3 +749,4 @@ class TestEbTileArrangement(BaseTestCase, TilesetImageTestCase):
 
         new_image = arrangement.image(tileset, palette)
         assert_images_equal(self.tile_8x8_2bpp_2_img, new_image)
+

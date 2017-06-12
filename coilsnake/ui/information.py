@@ -42,3 +42,4 @@ Released on {release_date}
 
     description += "\n" + ADDITIONAL_CREDITS
     return description
+

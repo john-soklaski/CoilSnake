@@ -10,3 +10,4 @@ class CoilSnakeFormatter(Formatter):
     def format(self, record):
         self._fmt = self.FORMATS.get(record.levelno, self.FORMATS[INFO])
         return super(CoilSnakeFormatter, self).format(record)
+

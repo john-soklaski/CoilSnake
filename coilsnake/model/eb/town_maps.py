@@ -70,3 +70,4 @@ class TownMapIconPlacementPointerTableEntry(EbPointerTableEntry):
     @classmethod
     def yml_rep_hex_labels(cls):
         return cls.table_entry_class.yml_rep_hex_labels()
+
