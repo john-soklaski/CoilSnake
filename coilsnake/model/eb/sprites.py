@@ -356,8 +356,8 @@ class SpriteGroup(object):
             self.sprites = [[EbRegularSprite(), False] for i in range(self.num_sprites)]
 
         sprite_width, sprite_height = image.size
-        sprite_width /= 4
-        sprite_height /= 4
+        sprite_width //= 4
+        sprite_height //= 4
         self.width, self.height = sprite_width // 8, sprite_height // 8
 
         x = 0
