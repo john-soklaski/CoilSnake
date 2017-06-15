@@ -187,11 +187,11 @@ class EbPalette(EqualityMixin):
         i = 0
         for subpalette in self.subpalettes:
             for color in subpalette:
-                color.r = int(string_rep[i], 32) << 3
+                color.r = string_rep[i] << 3
                 i += 1
-                color.g = int(string_rep[i], 32) << 3
+                color.g = string_rep[i] << 3
                 i += 1
-                color.b = int(string_rep[i], 32) << 3
+                color.b = string_rep[i] << 3
                 i += 1
 
     def add_colors_to_subpalette(self, colors):

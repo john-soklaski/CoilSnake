@@ -165,7 +165,7 @@ class EbTileset(object):
             i = 0
             for y in range(8):
                 for x in range(8):
-                    minitile[y][x] = int(string_rep[i], 32)
+                    minitile[y][x] = string_rep[i]
                     i += 1
             self.minitiles.tiles[n] = minitile
 
@@ -224,10 +224,10 @@ class EbTileset(object):
 
         while True:
             line = f.readline()
-            if line == "\n":
+            if line == b"\n":
                 break
-            map_tileset = int(line[0], 32)
-            map_palette = int(line[1], 32)
+            map_tileset = line[0]
+            map_palette = line[1]
             palette = EbMapPalette()
             palette.from_string(line[2:-1])
             self.add_palette(map_tileset, map_palette, palette)
