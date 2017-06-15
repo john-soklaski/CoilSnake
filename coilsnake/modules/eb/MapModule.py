@@ -175,7 +175,7 @@ class MapModule(EbModule):
     def read_from_project(self, resource_open):
         # Read map data
         with resource_open("map_tiles", "map") as f:
-            self.tiles = [[int(x, 16) for x in y.split(" ")] for y in f.readlines()]
+            self.tiles = [[int(x, 16) for x in y.split(b" ")] for y in f.readlines()]
 
         # Read sector data
         with resource_open("map_sectors", "yml") as f:
