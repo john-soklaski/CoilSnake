@@ -168,7 +168,7 @@ class WindowGraphicsModule(EbModule):
         # Read names
         with resource_open("WindowGraphics/flavor_names", "txt") as f:
             for asm_pointer_offset in FLAVOR_NAME_ASM_POINTER_OFFSETS:
-                name = f.readline()[:-1]
+                name = f.readline().decode()[:-1]
                 self.flavor_names[asm_pointer_offset] = FLAVOR_NAME_ENTRY.from_yml_rep(name)
 
 
