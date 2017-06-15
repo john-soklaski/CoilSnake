@@ -160,12 +160,14 @@ class EbTileset(object):
             return s
 
     def minitile_from_string(self, n, string_rep):
+        # Decode bytes into string so we can parse as hex
+        string_rep = string_rep.decode()
         if n < 896:
             minitile = [[0] * self.minitiles.tile_width for x in range(self.minitiles.tile_height)]
             i = 0
             for y in range(8):
                 for x in range(8):
-                    minitile[y][x] = string_rep[i]
+                    minitile[y][x] = int(string_rep[i], 32)
                     i += 1
             self.minitiles.tiles[n] = minitile
 
@@ -223,11 +225,12 @@ class EbTileset(object):
         f.readline()
 
         while True:
-            line = f.readline()
-            if line == b"\n":
+            # Decode bytes into string so we can parse as hex
+            line = f.readline().decode()
+            if line == "\n":
                 break
-            map_tileset = line[0]
-            map_palette = line[1]
+            map_tileset = int(line[0], 32)
+            map_palette = int(line[1], 32)
             palette = EbMapPalette()
             palette.from_string(line[2:-1])
             self.add_palette(map_tileset, map_palette, palette)
