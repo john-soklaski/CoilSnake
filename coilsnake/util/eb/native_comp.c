@@ -83,7 +83,7 @@ int comp_(uchar *udata, uchar *buffer, int length) {
                                         goto DONE;
                                 }
                                 
-                                for(tmp = 0, pos4 = pos3; pos4 < pos2 && tmp < 1024 && pos2 + tmp < limit && *pos4 == bitrevs[pos2[tmp]]); pos4++, tmp++);
+                                for(tmp = 0, pos4 = pos3; pos4 < pos2 && tmp < 1024 && pos2 + tmp < limit && *pos4 == bitrevs[pos2[tmp]]; pos4++, tmp++);
                                 if(tmp >= 5) {
                                         rencode(&bpos, pos, pos2 - pos);
                                         encode(&bpos, tmp, 5);
